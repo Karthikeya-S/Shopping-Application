@@ -2,6 +2,7 @@ package main_page;
 
 public class Payment {
 	private Bill bill;
+	private Customer cust;
 	private String cardDetails;
 	public Payment(Bill bill) {
 		this.bill=bill;

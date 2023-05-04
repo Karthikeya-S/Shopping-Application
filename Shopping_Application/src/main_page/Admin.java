@@ -240,7 +240,7 @@ public class Admin {
 		case 5:
 			System.out.println("You have selected to delete a Customer.\nPlease Enter:\n");
 			System.out.println("\nID:");
-			int id = scan.nextInt();
+			String id = scan.nextLine();
 			deleteCustomer(id);
 			break;
 			
@@ -271,14 +271,14 @@ public class Admin {
 		BufferedReader br = new BufferedReader(fileR);
 		while((line = br.readLine())!=null) {
 			String[] customers = line.split(splitBy);
-			System.out.println("Customer UserName: "+ customers[0] + "Customer Password: "+customers[1]);
+			System.out.println("Customer UserName: "+ customers[0]);
 		}
 	
 		System.out.println("\n********************************************\n\n\n");
 		br.close();
 	}
 	
-	public void deleteCustomer(Integer id) throws IOException {
+	public void deleteCustomer(String userName) throws IOException {
 		
 		FileReader fileR = new FileReader("D:\\\\Wiley_Training\\\\ShopppingApp\\\\CustomerInfo.csv");
 		BufferedReader br = new BufferedReader(fileR);
@@ -291,7 +291,7 @@ public class Admin {
 		int curr = 0;
 		while((line = br.readLine())!=null) {
 			String split[] = line.split(splitBy);
-			if(split[0] == id.toString()) {
+			if(split[0] == userName) {
 				idxToDel = curr;
 				break;
 			}

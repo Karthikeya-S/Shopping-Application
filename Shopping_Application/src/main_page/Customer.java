@@ -123,11 +123,11 @@ public class Customer {
 
 	static ArrayList<Product> pay() {
 		System.out.println("Call function of payment class and pass arrayList");
-		
+
 		return cart;
 	}
 	
-	public static void displayCustomerMenu() {
+	public void displayCustomerMenu() {
 		int i;
 		Scanner sc = new Scanner(System.in);
 		System.out.println("1. View Products");
