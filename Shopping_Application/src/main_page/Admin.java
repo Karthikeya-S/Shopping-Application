@@ -307,6 +307,25 @@ public class Admin {
 		System.out.println("\n********************************************\n\n\n");
 		br.close();
 	}
+
+	public static void viewProducts() throws IOException {
+
+		FileReader fileR = new FileReader("C:\\Users\\Sahil\\Downloads\\products.csv");
+		System.out.println("\n********************************************\n");
+
+		String line = "";
+		String splitBy = ",";
+
+		BufferedReader br = new BufferedReader(fileR);
+		System.out.println("ID\tName\tRate");
+		while((line = br.readLine())!=null) {
+			String[] products = line.split(splitBy);
+			System.out.println(products[0]+"\t"+products[1]+"\t"+products[2]);
+		}
+
+		System.out.println("\n********************************************\n\n\n");
+		br.close();
+	}
 	
 	public static void deleteCustomer(Integer id) throws IOException {
 		
