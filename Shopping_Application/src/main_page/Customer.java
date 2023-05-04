@@ -80,6 +80,7 @@ public class Customer {
 
 	static boolean removeProduct(String name){
 		String productdetails = productList.get(name);
+		System.out.println(productdetails);
 		String []sp =  productdetails.split(" ");  // id +$+price
 		int id = Integer.valueOf(sp[0]);
 		double price = Double.valueOf(sp[1]);
@@ -103,13 +104,14 @@ public class Customer {
 	public static int checkContains(Product obj) {
 		for(int i=0;i<cart.size();i++) {
 			if(obj.getName() == cart.get(i).getName())
+				
 				return i;
 		}
 		return -1;
 	}
 	
 
-	void viewCart() {
+	static void viewCart() {
 		System.out.println("All Cart Items:");
 		System.out.println("********************************************");
 		System.out.format("%-20s  %-20s  %-20s  %-20s%-20s%n","S.no","productId","name","price","Quantity");
@@ -127,19 +129,26 @@ public class Customer {
 		return cart;
 	}
 	
-	public static void displayCustomerMenu() {
+	public void displayCustomerMenu() {
 		int i;
 		Scanner sc = new Scanner(System.in);
-		System.out.println("1. View Products");
-		System.out.println("2. Search Product");
-		System.out.println("3. Add to Cart");
-		System.out.println("4. Remove from Cart");
-		System.out.println("5. View Cart");
-		System.out.println("6. Payment");
-		System.out.println("Enter your choice: ");
-		i = sc.nextInt();
-		sc.close();
-		customerOperations(i);
+		
+		while(true) {
+			System.out.println("1. View Products");
+			System.out.println("2. Search Product");
+			System.out.println("3. Add to Cart");
+			System.out.println("4. Remove from Cart");
+			System.out.println("5. View Cart");
+			System.out.println("6. Payment");
+			System.out.println("7.Exit");
+			System.out.println("Enter your choice: ");
+			i = sc.nextInt();
+			if(i == 7) break;
+			customerOperations(i);
+		}
+		//sc.close();
+		
+		
 	}
 	
 	public static void customerOperations(int i) {
@@ -168,12 +177,20 @@ public class Customer {
 			removeProduct(removeName);
 			break;
 		case 5:
+			viewCart();
+			break;
+		case 6:
 			System.out.println("Are you sure you want to go to payment? (Enter y or n) : ");
 			String choice = sc.nextLine();
 			if(choice=="y" || choice=="Y") {
 				pay();
 			}
+			break;
+		default:
+			System.out.println("Incorrect Input!");
+			break;
 		}	
+		
 	}
 //
 //	public static void main(String[] args) {

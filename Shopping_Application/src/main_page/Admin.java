@@ -21,9 +21,9 @@ public class Admin {
 	
 
 	public static int getNumberOfProducts() throws FileNotFoundException {
-		productReader =  new Scanner(new File("D:\\Wiley_Training\\ShopppingApp\\productDetails.csv"));
+		productReader =  new Scanner(new File("C:\\Users\\Sahil\\eclipse-workspace\\Wiley_Java_Course\\data\\data.csv"));
 		int noOfProducts=0;
-		try (BufferedReader reader = new BufferedReader(new FileReader("D:\\Wiley_Training\\ShopppingApp\\productDetails.csv"))) {
+		try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Sahil\\eclipse-workspace\\Wiley_Java_Course\\data\\data.csv"))) {
 	          while (reader.readLine() != null) noOfProducts++;
 	      } catch (IOException e) {
 	          e.printStackTrace();
@@ -32,17 +32,43 @@ public class Admin {
 	}
 	
 	
-	public void addProduct(int prodID, String prodName, double rate) throws IOException {
+	public static void addProduct(int prodID, String prodName, double rate) throws IOException {
 		Product p = new Product(prodID, prodName, rate);
-		FileWriter fw = new FileWriter(new File("D:\\Wiley_Training\\ShopppingApp\\productDetails.csv"));
+		/*
+		FileWriter fw = new FileWriter(new File("C:\\Users\\Sahil\\eclipse-workspace\\Wiley_Java_Course\\data\\data.csv"));
 		String s = "";
 		s+=p.getId()+","+p.getName()+","+p.getPrice()+"\n";
 		fw.write(s);
 		System.out.println("Product added");
+		*/
+		
+		
+		
+		File csvFile = new File("C:\\Users\\Sahil\\eclipse-workspace\\Wiley_Java_Course\\data\\data.csv");
+		FileReader fileReader = new FileReader(csvFile);
+	    BufferedReader bufferedReader = new BufferedReader(fileReader);
+	    List<String> products = new ArrayList<>();
+		String line;
+	    while ((line = bufferedReader.readLine()) != null) {
+	        products.add(line);
+	    }
+	    String s = p.getId()+","+p.getName()+","+p.getPrice();
+	    products.add(s);
+	    bufferedReader.close();
+		FileWriter fileWriter = new FileWriter(csvFile);
+	    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+	    for (String record : products) {
+	        bufferedWriter.write(record);
+	        bufferedWriter.newLine();
+	    }
+	    
+	    bufferedWriter.close();
+	    System.out.println("Product Added");
+	    
 	}
 	
-	public void removeProduct(int prodID) throws IOException {
-		File csvFile = new File("D:\\Wiley_Training\\ShopppingApp\\productDetails.csv");
+	public static void removeProduct(int prodID) throws IOException {
+		File csvFile = new File("C:\\Users\\Sahil\\eclipse-workspace\\Wiley_Java_Course\\data\\data.csv");
         FileReader fileReader = new FileReader(csvFile);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
@@ -55,9 +81,14 @@ public class Admin {
 
         // Close the BufferedReader
         bufferedReader.close();
-
+        System.out.println(allLines);
         // Remove the record you want to delete from the list
-        int indexToDelete = prodID; // for example
+        if(prodID > allLines.size() ) {
+        	System.out.println("No Such Product");
+        	return;
+        }
+        
+        int indexToDelete = prodID-1; // for example
         allLines.remove(indexToDelete);
 
         // Open the CSV file for writing
@@ -74,8 +105,8 @@ public class Admin {
         bufferedWriter.close();
 	}
 	
-	public void editProduct(int prodID, Product product) throws IOException {
-		File csvFile = new File("D:\\\\Wiley_Training\\\\ShopppingApp\\productDetails.csv");
+	public static void editProduct(int prodID, Product product) throws IOException {
+		File csvFile = new File("C:\\Users\\Sahil\\eclipse-workspace\\Wiley_Java_Course\\data\\data.csv");
         FileReader fileReader = new FileReader(csvFile);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
@@ -160,7 +191,7 @@ public class Admin {
 //        
 //	}
 	
-	public void selectOption() {
+	public static void selectOption() {
 		scan = new Scanner(System.in);
 		int i;
 		do {
@@ -189,11 +220,10 @@ public class Admin {
 		}while(i!=10);
 	}
 	
-	public void callFunction(int i) throws IOException {
+	public static void callFunction(int i) throws IOException {
 		
 		
-		//Product pd = new Product();
-		//Customer cst = new Customer("","");
+		
 		
 		switch(i) {
 		
@@ -260,9 +290,9 @@ public class Admin {
 //		ad.selectOption();
 //	}
 	
-	public void viewCustomer() throws IOException {
+	public static void viewCustomer() throws IOException {
 	
-		FileReader fileR = new FileReader("D:\\\\Wiley_Training\\\\ShopppingApp\\\\CustomerInfo.csv");
+		FileReader fileR = new FileReader("C:\\Users\\Sahil\\Downloads\\data.csv");
 		System.out.println("\n********************************************\n");
 
 		String line = "";
@@ -278,9 +308,9 @@ public class Admin {
 		br.close();
 	}
 	
-	public void deleteCustomer(Integer id) throws IOException {
+	public static void deleteCustomer(Integer id) throws IOException {
 		
-		FileReader fileR = new FileReader("D:\\\\Wiley_Training\\\\ShopppingApp\\\\CustomerInfo.csv");
+		FileReader fileR = new FileReader("C:\\Users\\Sahil\\Downloads\\data.csv");
 		BufferedReader br = new BufferedReader(fileR);
 		
 		int idxToDel=-1;
@@ -289,12 +319,15 @@ public class Admin {
 		String splitBy = ",";
 		
 		int curr = 0;
+		int id_ = 0;
+		
 		while((line = br.readLine())!=null) {
 			String split[] = line.split(splitBy);
-			if(split[0] == id.toString()) {
+			if(id_+1 == id) {
 				idxToDel = curr;
 				break;
 			}
+			id_++;
 			curr++;
 		}
 		
@@ -311,7 +344,7 @@ public class Admin {
 		
 		data.remove(idxToDel);
 		
-		FileWriter fw = new FileWriter("D:\\\\Wiley_Training\\\\ShopppingApp\\\\CustomerInfo.csv");
+		FileWriter fw = new FileWriter("C:\\Users\\Sahil\\Downloads\\data.csv");
 		BufferedWriter bw = new BufferedWriter(fw);
 		
 		for(String str: data) {
@@ -323,15 +356,7 @@ public class Admin {
 	}
 	
 	
-//	private void editCustomersUserName() throws FileNotFoundException {
-//		Scanner sc = new Scanner(new File("D:\\Wiley_Training\\ShopppingApp\\CustomerInfo.csv"));
-//		sc.useDelimiter(",");
-//		
-//		while(sc.hasNext()) {
-//			System.out.println(sc.next());
-//		}
-//	}
-//	
+	
 	
 	private void registerCustomer(Customer obj) {
 		//Shop.registerCustomer();
