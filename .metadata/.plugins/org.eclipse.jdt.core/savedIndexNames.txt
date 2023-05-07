@@ -1,0 +1,1 @@
+INDEX VERSION 1.132+D:\Games\Work\WileyEdge\Other\Projects\Shopping-Application\.metadata\.plugins\org.eclipse.jdt.core

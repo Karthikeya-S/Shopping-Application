@@ -5,12 +5,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Customer {
 	static ArrayList<Product> cart;
 	static HashMap<String,String> productList;
+
 	// name , id + +price
 
 	Customer(String csvFile){
@@ -25,39 +27,37 @@ public class Customer {
 				String[] productData = line.split(csvDelimiter);
 				String details = ""+productData[0]+" "+productData[2];
 				productList.put(productData[1], details);
-				
-				
+
+
 			}
-//			System.out.println(productList);
-			
+			//			System.out.println(productList);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
-	public static void viewProducts() {
-		
-		// TODO Auto-generated catch block
-		System.out.println("inside view ");
-		System.out.println(productList);
+	// fine 
+	static void viewProducts() {
 
-		
+//		System.out.println("inside view ");
+		System.out.println(productList);
 		System.out.format("%-20s  %-20s  %-20s%n","productId","name","price");
 		for(Map.Entry<String,String> i: productList.entrySet()) {
 			String []sp = i.getValue().split(" ");
-			
+
 			System.out.format("%-20s  %-20s  %-20s%n",sp[0],i.getKey(),sp[1]);
 		}
-		
+
 
 	}
 
-	public static boolean searchProduct(String name) {
+	static boolean searchProduct(String name) {
 		return productList.containsKey(name); 
 	}
 
-	public static void addToCart(String name) {
+	static	void addToCart(String name) {
 		String productdetails = productList.get(name);
 		String []sp =  productdetails.split(" ");  // id +$+price
 		int id = Integer.valueOf(sp[0]);
@@ -73,22 +73,27 @@ public class Customer {
 			obj.setCount(obj.getCount()+1);	
 			cart.add(obj);			
 		}
-		
+
 		System.out.println("Added to Cart");
+
+		
+		
 	}
 
 
 	static boolean removeProduct(String name){
 		String productdetails = productList.get(name);
-		System.out.println(productdetails);
 		String []sp =  productdetails.split(" ");  // id +$+price
 		int id = Integer.valueOf(sp[0]);
 		double price = Double.valueOf(sp[1]);
 		Product obj = new Product(id,name,price); 
 
 		if(checkContains(obj)!=-1){
-			if(obj.getCount()>1) {
-				obj.setCount(obj.getCount()-1);
+			if(cart.get(checkContains(obj)).getCount()>1) {
+				int oldCount = cart.get(checkContains(obj)).getCount();
+				cart.remove(checkContains(obj));
+				obj.setCount(oldCount-1);	
+				cart.add(obj);
 			}
 			else {
 				cart.remove(checkContains(obj));
@@ -96,22 +101,22 @@ public class Customer {
 			System.out.println("Product removed from cart!");
 			return true;
 		}
+		System.out.println("Error");
 		return false;     
 	}
 
-	
-	
-	public static int checkContains(Product obj) {
+
+
+	static	int checkContains(Product obj) {
 		for(int i=0;i<cart.size();i++) {
-			if(obj.getName() == cart.get(i).getName())
-				
+			if(obj.getName().equals(cart.get(i).getName()))
 				return i;
 		}
 		return -1;
 	}
-	
 
-	static void viewCart() {
+
+	static	void viewCart() {
 		System.out.println("All Cart Items:");
 		System.out.println("********************************************");
 		System.out.format("%-20s  %-20s  %-20s  %-20s%-20s%n","S.no","productId","name","price","Quantity");
@@ -122,14 +127,8 @@ public class Customer {
 
 		}
 	}
-
-	static ArrayList<Product> pay() {
-		System.out.println("Call function of payment class and pass arrayList");
-		
-		return cart;
-	}
 	
-	public void displayCustomerMenu() {
+public void displayCustomerMenu() {
 		int i;
 		Scanner sc = new Scanner(System.in);
 		
@@ -146,8 +145,8 @@ public class Customer {
 			if(i == 7) break;
 			customerOperations(i);
 		}
-		//sc.close();
 		
+		//sc.close();
 		
 	}
 	
@@ -185,29 +184,34 @@ public class Customer {
 			if(choice=="y" || choice=="Y") {
 				pay();
 			}
-			break;
-		default:
-			System.out.println("Incorrect Input!");
-			break;
 		}	
-		
 	}
-//
-//	public static void main(String[] args) {
-//		Customer obj = new Customer("product.csv");
-//		obj.viewProducts();
-//		
-//		obj.addToCart("Watch");
-//		obj.addToCart("Suitcase");
-//		obj.addToCart("Suitcase");
-//
-//		obj.viewCart();
-//		obj.removeProduct("Watch");
-//		obj.viewCart();
-//
-//		
-//		//		System.out.println(obj.searchProduct("Suitcase"));
-////
-//	}
+
+	static ArrayList<Product> pay() {
+		System.out.println("Call function of payment class and pass arrayList");
+
+		return cart;
+	}
+
+	//	public static void main(String[] args) {
+	//		Customer obj = new Customer("product.csv");
+	//		obj.viewProducts();
+	//		
+	//		obj.addToCart("Watch");
+	//		obj.addToCart("Suitcase");
+	//		obj.addToCart("Suitcase");
+	//		obj.addToCart("Suitcase");
+	//
+	//
+	//		obj.viewCart();
+	//		obj.removeProduct("Watch");
+	////		obj.removeProduct("Suitcase");
+	//
+	//		obj.viewCart();
+	//
+	//		
+	//		//		System.out.println(obj.searchProduct("Suitcase"));
+	////
+	//	}
 
 }

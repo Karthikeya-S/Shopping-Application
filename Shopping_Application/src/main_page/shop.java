@@ -15,7 +15,7 @@ public class shop{
 	private String user;
 	private String type;
 	public static void writer(String username, String password, String type) throws IOException{
-		File csvFile = new File("C:\\Users\\Sahil\\Downloads\\data.csv");
+		File csvFile = new File(FilePath.Userpath);
 		FileReader fileReader = new FileReader(csvFile);
 	    BufferedReader bufferedReader = new BufferedReader(fileReader);
 	    List<String> adminAuth = new ArrayList<>();
@@ -38,7 +38,7 @@ public class shop{
 	}
 
 	static boolean login(String username, String password, String type) throws IOException {
-		File csvFile = new File("C:\\Users\\Sahil\\Downloads\\data.csv");
+		File csvFile = new File(FilePath.Userpath);
 		FileReader fileReader = new FileReader(csvFile);
 	    BufferedReader bufferedReader = new BufferedReader(fileReader);
 	    List<String> adminAuth = new ArrayList<>();
@@ -114,7 +114,7 @@ public class shop{
 						Admin.selectOption();
 						break;
 					}else {
-						Customer c = new Customer("C:\\Users\\Sahil\\eclipse-workspace\\Wiley_Java_Course\\data\\data.csv");
+						Customer c = new Customer(FilePath.Productpath);
 						c.displayCustomerMenu();
 						break;
 					}
